@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.tarena.note.dao.NoteMapperDao">
+	<select id="findByNoteBookId" parameterType="String" 
+	resultType="java.util.Map">
+		select cn_note_id,cn_note_title from cn_note
+		where cn_notebook_id=#{notebook_id}
+		and cn_note_status_id='1'
+		order by cn_note_create_time desc
+	</select>
+	<select id="isExist" parameterType="org.tarena.note.entity.Note"
+											resultType="int">
+		select count(*) from cn_note
+		where cn_user_id=#{cn_user_id} 
+		and cn_notebook_id=#{cn_notebook_id}
+		and cn_note_title=#{cn_note_title}
+	</select>
+	<insert id="save" parameterType="org.tarena.note.entity.Note">
+		insert into cn_note(cn_notebook_id,cn_user_id,cn_note_status_id,cn_note_type_id,
+			cn_note_title,cn_note_body,cn_note_create_time,cn_note_last_modify_time)
+		values(#{cn_notebook_id},#{cn_user_id},#{cn_note_status_id},#{cn_note_type_id},
+		#{cn_note_title},#{cn_note_body},#{cn_note_create_time},#{cn_note_last_modify_time})						
+	</insert>
+	
+	<select id="noteContent" parameterType="string"
+											resultType="org.tarena.note.entity.Note">
+		select cn_note_title,cn_note_body from cn_note
+		where cn_note_id=#{cn_note_id}
+	</select>
+	
+	<update id="updateNote" parameterType="org.tarena.note.entity.Note" >
+		update cn_note set cn_note_title=#{cn_note_title},cn_note_body=#{cn_note_body}
+		where cn_user_id=#{cn_user_id}
+		and cn_notebook_id=#{cn_notebook_id}
+		and cn_note_id=#{cn_note_id} 
+	</update>
+	
+	<update id="updateStatus" parameterType="string">
+		update cn_note 
+		set cn_note_status_id='2'
+		where cn_note_id=#{note_id}
+	</update>
+</mapper>

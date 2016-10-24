@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.tarena.note.dao.NoteBookMapperDao">
+	<!-- 通过用户ID查询笔记本列表 -->
+	<select id="findByUserId" parameterType="string" 
+					resultType="org.tarena.note.entity.NoteBook">
+		select * from cn_notebook 
+		where cn_user_id=#{user_id}
+		order by cn_notebook_createtime desc
+	</select>
+	<!-- 判断用户是否已有该笔记本 -->
+	<select id="isExist" parameterType="org.tarena.note.entity.NoteBook" 
+					resultType="int">
+		select count(*) from cn_notebook 
+		where cn_user_id=#{cn_user_id} and cn_notebook_name=#{cn_notebook_name}
+	</select>
+	<!-- 保存笔记本 -->
+	<insert id="save" parameterType="org.tarena.note.entity.NoteBook" >
+		insert into cn_notebook(cn_user_id,cn_notebook_type_id,cn_notebook_name,
+														cn_notebook_desc,cn_notebook_createtime)
+		values(#{cn_user_id},#{cn_notebook_type_id},#{cn_notebook_name},
+														#{cn_notebook_desc},#{cn_notebook_createtime})
+	</insert>
+	
+	<!-- 重命名笔记本 -->
+	<update id="rename" parameterType="java.util.Map">
+		update cn_notebook set cn_notebook_name=#{book_name}
+		where cn_notebook_id=#{book_id}
+	
+	</update>
+</mapper>

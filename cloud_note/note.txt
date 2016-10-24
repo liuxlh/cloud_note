@@ -1,0 +1,197 @@
+1.Ajax+SpringWebMVC
+
+ /json1.do
+-->DispatcherServlet
+-->HanlderMapping
+-->JsonController.test1
+-->返回一个String消息
+-->调用jackson.jar输出
+=======================
+2.项目简介(云笔记)
+ 笔记管理系统:
+ 1)响应速度快：
+    a.页面静态化;
+    b.Ajax请求响应;
+    c.采用无会话状态处理模式
+    （使用Cookie+Db）
+    d.采用Tomcat集群部署
+ 2)处理数据量大：
+   数据库采取主从备份,读写分离
+   数据表记录过多可以才取分表存储
+
+ 3)功能简介
+  笔记本模块:创建,删除,列表显示,查看笔记
+  笔记模块:创建,删除,更新,笔记列表,
+       查看笔记内容,分享笔记,查询笔记
+  回收站:删除笔记列表,笔记回复,彻底删除
+  分享管理:分享笔记列表,取消分享
+  收藏管理:收藏笔记列表,取消收藏
+  活动管理:参加活动,取消,查看参加活动的笔记
+  用户管理:登录,注册,修改密码,退出
+ 
+ 4)涉及技术
+  jQuery,Ajax,springmvc,springioc,aop,
+  mybatis
+
+  服务器端处理:springmvc,aop,ioc,mybatis
+  客户端处理:ajax,jQuery,其他js库
+
+  涉及规则：
+  分层: 
+   表现层:HTML
+   控制层:Controller
+   业务层:Service
+   数据访问层:Dao
+
+  请求响应模式:
+   全部采用采用AJax发送请求,
+   服务器返回json结果
+
+  服务器返回JSON格式：
+{
+  status:状态,
+  msg:消息,
+  data:数据
+}
+
+======登录========
+a.先了解需求以及相关数据表结构
+  涉及cn_user
+b.功能实现
+  1)客户端请求发送
+   点击登录按钮发送请求
+   提交用户名和密码信息
+
+  2)服务器端处理
+  /user/login.do
+-->DispatcherServlet
+-->HandlerMapping
+  -->UserLoginController.execute
+  -->UserService.checkLogin
+  -->UserMapperDao-->cn_user(查询)
+-->返回约定的JSON结果
+
+  3)客户端回调处理
+  解析JSON结果,根据status值判断成功
+还是失败,若成功进入edit.html
+如果失败在登录界面显示错误信息
+
+ 4)先实现服务器端处理
+  a.实现UserMapperDao
+    （Spring+MyBatis）
+   参考spring+mybatis.png结构图
+
+org.tarena.note.controller.user
+org.tarena.note.controller.note
+org.tarena.note.controller.notebook
+org.tarena.note.controller.activity
+
+
+User user = userDao.findByName();
+if(user==null){
+  
+}else{
+  if(!user.getCn_user_password().e...){
+     
+  }else{
+     if(){
+     }else{}
+  }
+}
+
+  
+
+低于2000不扣
+2000-3000扣税5%
+3000-5000扣税10%
+5000-8000扣税15%
+8000以上扣税18%
+低于2000的占5%
+2000-3000的占15%
+3000-5000的占50%
+5000-8000的占20%
+8000占10%
+
+if(sal<=2000){
+
+}else if(sal<=3000){
+
+}else if(sal<=5000){
+
+}else if(sal<=8000){
+
+}else{//sal>8000
+}
+
+
+====================注册实现======================
+1.客户端请求发送
+	点击注册按钮时候发
+	要提交用户名，昵称，密码
+	是否需要数据格式检查
+2.服务器请求处理
+	/user/regist.do
+	-->DispatherServlet
+	-->HandlerMapping
+	-->UserRegisterController.execute()
+		-->UserService.regist()
+		-->UserDao.save(添加操作)
+-->返回NoteResult结构的json数据
+3.客户端处理
+注册成功：弹出提示框提示下，自动切换到登录页面
+注册失败：提示错误信息
+
+=================笔记本列表显示=======================
+a.ajax发送请求
+edit.html载入完毕，自动发送ajax要提取数据，从Cookie获取user_id
+b.服务器处理
+/noteBook/loadbooks.do
+-->DispatherServlet-->HandlerMapping
+-->LoadBooksController.execute
+	-->NoteBookService.loadBooks
+	-->NoteBookMapperDao.findByUserId-->cn_notebook
+-->返回NoteResult结构的json数据
+c.ajax的回调处理
+	成功：获取json数据，解析
+=====================笔记列表=========================
+a.单击li(笔记本),发送ajax请求
+提交请求数据，点击的笔记本ID
+
+b.服务器处理请求
+提取出笔记本包含的笔记信息
+/note/loadnotes.do
+-->DispatherServlet-->HandlerMapping
+-->LoadNotesController.execute
+	-->NoteService.loadNotes
+	-->NoteMapperDao.findByBookId-->cn_note
+-->返回NoteResult结构的json数据
+c.ajax的回调处理
+	成功：获取json数据，解析
+
+//绑定笔记本li单击(动态绑定)
+jQuery.on(事件类型,选择器,fn);-----给jQuery对象中现有和未来与选择器匹配的元素绑定事件fn
+
+例：$(document).on("click","#btn",fn(){});
+从document节点下查找ID为‘btn’的子元素，并绑定单击事件
+
+$("#contacts-list1").on("click","li",fn(){
+	...
+});
+
+$.ajxa-->XMLHttpResquest
+$.post
+$.get
+$.getJSON
+$.Script
+
+jQuery对象.load("url);
+采用ajax方式发送请求，然后将返回结果填充到jQuery对象里面
+
+
+
+
+
+
+
+
+
