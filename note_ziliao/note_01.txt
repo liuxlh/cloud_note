@@ -1,0 +1,89 @@
+1.项目安排
+ 总时间12天
+ 项目开发：7天
+ 其他知识点：5天
+
+ 实现任务的方法
+ 错误调试方法
+ 测试方法
+ 学习方法
+
+2.云笔记
+笔记管理系统
+
+功能：
+   用户登录、注册、修改密码、退出
+   笔记本管理（添加、修改、删除、查看）
+   笔记管理（添加、修改、删除、查看、转移、
+             分享、收藏）
+   回收站管理（查看、恢复、删除）
+   收藏夹管理（查看、取消收藏）
+   分享管理（查看、取消分享）
+   笔记搜索
+   活动管理：（查看、参加活动、查看活动笔记）
+3.开发涉及技术
+Spring Web MVC ：便于快速开发MVC结构的Web程序
+        主要负责接收请求分发处理
+Spring IOC ：创建对象管理对象关系(解耦)
+Spring AOP(后续讲) ：事务管理
+MyBatis : 访问数据库
+jQuery ：js框架，简化js开发
+Ajax : 异步请求处理,页面局部刷新
+
+4.设计思想
+a.分层开发(4层)
+ 表现层 : html（js+ajax） (V)
+ 控制层 : Controller (SpringMVC的C)
+ 业务层 : Service (M)
+ 数据处理层 ： DAO (M)
+
+b.界面和服务器交互模式
+HTML界面--Ajax发请求-->Server(Controller,Service,Dao)
+JS解析JSON更新页面<--返回JSON--
+
+c.JSON传输格式
+ Server处理完必须返回JSON结果;
+ 返回JSON结果的格式必须如下：
+ {
+   status:"处理状态",
+   msg:"消息",
+   data:返回的数据
+ }
+ 
+//把NoteResult转成json输出
+ public class NoteResult {
+    private int status;
+    private String msg;
+    private Object data;
+ }
+
+5.项目开发环境
+ MyEclipse 
+ JDK6.0
+ Tomcat6
+ MySQL5.x
+
+a.导入数据库sql
+ set names utf8;
+ source ...sql文件路径
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
